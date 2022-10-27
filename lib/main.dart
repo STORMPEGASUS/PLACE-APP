@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/PROVIDER/great_paces.dart';
+import 'package:flutter_complete_guide/SCREENS/add_places.dart';
 import 'package:flutter_complete_guide/SCREENS/places_list.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,9 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.amber,
         ),
         home: PlaceslistScreen(),
+        routes: {
+          AddPlaceScreen.routename:(context) => AddPlaceScreen(), 
+        },
       ),
     );
   }
