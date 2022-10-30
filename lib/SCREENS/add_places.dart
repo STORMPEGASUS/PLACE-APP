@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/PROVIDER/great_paces.dart';
 import 'package:flutter_complete_guide/WIDGET/add_image.dart';
+import 'package:provider/provider.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   static const routename = '/Add-Place';
@@ -10,6 +14,46 @@ class AddPlaceScreen extends StatefulWidget {
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
   final _titlecontroller = TextEditingController();
+  File _pickedImage;
+
+  void _selectImage(File pickedImage) {
+    _pickedImage = pickedImage;
+  }
+
+  void _savedPlace() {
+    if (_titlecontroller.text.isEmpty || _pickedImage == null) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Container(
+              child: AlertDialog(
+                title: Text(
+                  'ALERT!!',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+                content: Text(
+                  'Andha hai kya LAUDE thik se daal.',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Thik Chacha'))
+                ],
+              ),
+            );
+          });
+      return;
+    }
+
+    Provider.of<GreatPlaces >(context,listen: false)
+        .addPlace(_titlecontroller.text, _pickedImage);
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +71,16 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 child: Column(
                   children: <Widget>[
                     TextField(
-                      decoration: InputDecoration(labelText: 'Title',),
+                      decoration: InputDecoration(
+                        labelText: 'Title',
+                      ),
                       style: TextStyle(fontSize: 30),
                       controller: _titlecontroller,
                     ),
                     SizedBox(
                       height: 30,
                     ),
-                    
-                    ImageInput(),
+                    ImageInput(_selectImage),
                   ],
                 ),
               ),
@@ -49,7 +94,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               foregroundColor: Colors.black,
               textStyle: TextStyle(fontSize: 20),
             ),
-            onPressed: () {},
+            onPressed: _savedPlace,
             icon: Icon(Icons.add),
             label: Text('Add Place'),
           )

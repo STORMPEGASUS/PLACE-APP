@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as syspath;
 import 'package:image_picker/image_picker.dart';
 
 class ImageInput extends StatefulWidget {
+  final Function onSelectImage;
+
+  ImageInput(this.onSelectImage);
+
   @override
   State<ImageInput> createState() => _ImageInputState();
 }
@@ -14,14 +19,23 @@ class _ImageInputState extends State<ImageInput> {
   //function to pick image
   Future<void> _takePicture() async {
     final _picker = ImagePicker(); //due to deprecated member failure
-    
+
     final imagefile = await _picker.pickImage(
       source: ImageSource.camera,
       maxWidth: 600,
     );
-  
 
-   
+    if (imagefile == null) return;
+
+    setState(() {
+      _storedImage = File(imagefile.path);
+    });
+
+    final appDir = await syspath.getApplicationDocumentsDirectory();
+    final fileName = path.basename(imagefile.path);
+    final savedImage = await (File(imagefile.path))
+        .copy('${appDir.path}/$fileName'); //see for error happening zone
+    widget.onSelectImage(savedImage);
   }
 
   @override
