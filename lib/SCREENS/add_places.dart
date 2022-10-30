@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/PROVIDER/great_paces.dart';
 import 'package:flutter_complete_guide/WIDGET/add_image.dart';
+import 'package:flutter_complete_guide/WIDGET/location_input.dart';
 import 'package:provider/provider.dart';
 
 class AddPlaceScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   ),
                 ),
                 content: Text(
-                  'Andha hai kya LAUDE thik se daal.',
+                  'Kindly fill the form correctly.',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 actions: <Widget>[
@@ -42,7 +43,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('Thik Chacha'))
+                      child: Text('Okay'))
                 ],
               ),
             );
@@ -50,7 +51,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       return;
     }
 
-    Provider.of<GreatPlaces >(context,listen: false)
+    Provider.of<GreatPlaces>(context, listen: false)
         .addPlace(_titlecontroller.text, _pickedImage);
     Navigator.of(context).pop();
   }
@@ -71,16 +72,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 child: Column(
                   children: <Widget>[
                     TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Title',
-                      ),
-                      style: TextStyle(fontSize: 30),
-                      controller: _titlecontroller,
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
+                        decoration: InputDecoration(labelText: 'Title'),
+                        style: TextStyle(fontSize: 30),
+                        controller: _titlecontroller),
+                    SizedBox(height: 30),
                     ImageInput(_selectImage),
+                    SizedBox(height: 10),
+                    LocationInput(),
                   ],
                 ),
               ),

@@ -43,10 +43,10 @@ class _ImageInputState extends State<ImageInput> {
     return Row(
       children: <Widget>[
         Container(
-          width: 175,
+          width: 190,
           height: 175,
           decoration: BoxDecoration(
-            border: Border.all(width: 1, color: Colors.grey),
+            border: Border.all(width: 1, color: Color.fromARGB(255, 29, 60, 153)),
           ),
           child: _storedImage != null
               ? Image.file(
